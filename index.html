@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>ElevenLabs Agent</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      min-height: 100%;
+      background: #f6f7f9;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100svh;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f6f7f9;
+      color: #16181d;
+    }
+
+    main {
+      width: 100%;
+      min-height: 100svh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: max(20px, env(safe-area-inset-top))
+        max(16px, env(safe-area-inset-right))
+        max(20px, env(safe-area-inset-bottom))
+        max(16px, env(safe-area-inset-left));
+    }
+
+    .widget-frame {
+      width: min(100%, 420px);
+      min-height: 620px;
+      display: flex;
+      align-items: stretch;
+      justify-content: center;
+    }
+
+    elevenlabs-convai {
+      width: 100%;
+      max-width: 420px;
+      min-height: 620px;
+      display: block;
+    }
+
+    @media (max-width: 640px) {
+      main {
+        align-items: stretch;
+        padding: 0;
+      }
+
+      .widget-frame,
+      elevenlabs-convai {
+        width: 100%;
+        max-width: none;
+        min-height: 100svh;
+      }
+    }
+
+    @media (min-width: 641px) and (max-height: 720px) {
+      main {
+        align-items: flex-start;
+      }
+
+      .widget-frame,
+      elevenlabs-convai {
+        min-height: calc(100svh - 40px);
+      }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <div class="widget-frame">
+      <elevenlabs-convai
+        id="elevenlabs-widget"
+        agent-id="agent_6901kk137kxnfyctkhj2jsxv3vra">
+      </elevenlabs-convai>
+    </div>
+  </main>
+
+  <script>
+    const params = new URLSearchParams(window.location.search);
+
+    const dynamicVariables = {};
+
+    for (const [key, value] of params.entries()) {
+      dynamicVariables[key] = value;
+    }
+
+    const widget = document.getElementById("elevenlabs-widget");
+
+    widget.setAttribute(
+      "dynamic-variables",
+      JSON.stringify(dynamicVariables)
+    );
+  </script>
+
+  <script
+    src="https://unpkg.com/@elevenlabs/convai-widget-embed"
+    async
+    type="text/javascript">
+  </script>
+</body>
+</html>
