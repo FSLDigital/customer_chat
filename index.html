@@ -101,6 +101,18 @@
       "dynamic-variables",
       JSON.stringify(dynamicVariables)
     );
+
+    widget.addEventListener("elevenlabs-convai:call", (event) => {
+      event.detail.config.clientTools = {
+        get_customer_info: async ({ phone_number }) => {
+          const res = await fetch(
+            `https://fss-api.onrender.com/customer_snapshot/${encodeURIComponent(phone_number)}`
+          );
+          const data = await res.json();
+          return JSON.stringify(data);
+        }
+      };
+    });
   </script>
 
   <script
