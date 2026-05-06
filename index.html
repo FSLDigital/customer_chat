@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>ElevenLabs Agent</title>
+  <title>FSS 24/7 Chat</title>
 
   <style>
     * {
@@ -93,6 +93,11 @@
 
     for (const [key, value] of params.entries()) {
       dynamicVariables[key] = value;
+    }
+
+    // Allow short URL param `p` to supply the existing `phone_number` variable.
+    if (dynamicVariables.p && !dynamicVariables.phone_number) {
+      dynamicVariables.phone_number = dynamicVariables.p;
     }
 
     const widget = document.getElementById("elevenlabs-widget");
