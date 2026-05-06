@@ -107,6 +107,35 @@
       JSON.stringify(dynamicVariables)
     );
 
+    const hideElevenAgentsLink = () => {
+      const selector = 'a[href^="https://elevenlabs.io/agents"]';
+      const hide = (root) => {
+        root.querySelectorAll(selector).forEach((el) => {
+          el.style.setProperty("opacity", "0", "important");
+          el.style.setProperty("pointer-events", "none", "important");
+        });
+      };
+
+      hide(document);
+      if (widget.shadowRoot) hide(widget.shadowRoot);
+    };
+
+    hideElevenAgentsLink();
+    new MutationObserver(hideElevenAgentsLink).observe(document.body, {
+      childList: true,
+      subtree: true
+    });
+
+    const shadowRootWatcher = setInterval(() => {
+      if (!widget.shadowRoot) return;
+      hideElevenAgentsLink();
+      new MutationObserver(hideElevenAgentsLink).observe(widget.shadowRoot, {
+        childList: true,
+        subtree: true
+      });
+      clearInterval(shadowRootWatcher);
+    }, 200);
+
     widget.addEventListener("elevenlabs-convai:call", (event) => {
       event.detail.config.clientTools = {
         get_customer_info: async ({ phone_number }) => {
